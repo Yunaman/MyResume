@@ -945,12 +945,60 @@ Meet Yenus, a versatile digital creator and full-stack developer from Addis Abab
     <!-- Template Main JS File -->
     <script src="assets/js/form-submit.js"></script>
     <script src="assets/js/main.js"></script>
-
+<!-- form detaction for netlify -->
     <form name="contact" netlify netlify-honeypot="bot-field" hidden>
   <input type="text" name="name" />
   <input type="email" name="email" />
   <textarea name="message"></textarea>
 </form>
+<!-- thanks message script -->
+ <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form[name='contact']");
+
+  if (!form) return; // if no contact form, do nothing
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const formName = form.getAttribute("name");
+
+    // Netlify form submission
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() => {
+        // Fade out the form
+        form.style.transition = "opacity 0.5s ease";
+        form.style.opacity = "0";
+
+        setTimeout(() => {
+          form.innerHTML = `
+            <div style="text-align:center; color:#4caf50; font-size:1.1rem; font-weight:600; animation:fadeIn 0.6s ease;">
+              ✅ Thanks for reaching out! I’ll get back to you soon.
+            </div>
+          `;
+          form.style.opacity = "1";
+        }, 500);
+      })
+      .catch((err) => {
+        alert("Something went wrong, please try again.");
+        console.error(err);
+      });
+  });
+});
+</script>
+
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
 
   </body>
 </html>
