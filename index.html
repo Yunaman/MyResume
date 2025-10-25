@@ -867,6 +867,7 @@ Meet Yenus, a versatile digital creator and full-stack developer from Addis Abab
             <div class="col-lg-8 mt-5 mt-lg-0">
               
               <!-- Contact Form -->
+<!-- Contact Form -->
 <form id="contact-form" class="contact-form">
   <div class="form-group">
     <input type="text" name="name" placeholder="Your Name" required />
@@ -928,6 +929,7 @@ Meet Yenus, a versatile digital creator and full-stack developer from Addis Abab
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script>
   const PUBLIC_KEY = "m5PNOx2ZdFjbfChjT";
+  const SERVICE_ID = "service_0o2pz7g";
   const TEMPLATE_ID = "template_7fy6x9p";
 
   emailjs.init(PUBLIC_KEY);
@@ -939,7 +941,7 @@ Meet Yenus, a versatile digital creator and full-stack developer from Addis Abab
     event.preventDefault();
     status.textContent = "Sending... ⏳";
 
-    emailjs.sendForm("default_service", TEMPLATE_ID, this)
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, this)
       .then(() => {
         status.textContent = "Message sent successfully! ✅";
         form.reset();
@@ -950,6 +952,7 @@ Meet Yenus, a versatile digital creator and full-stack developer from Addis Abab
       });
   });
 </script>
+
 
 
 
