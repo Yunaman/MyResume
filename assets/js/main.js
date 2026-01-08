@@ -153,19 +153,25 @@
   }
 
   /**
-   * Hero type effect
+   * Hero type effect (Typed.js)
    */
-  const typed = select('.typed')
-  if (typed) {
-    let typed_strings = typed.getAttribute('data-typed-items')
-    typed_strings = typed_strings.split(',')
-    new Typed('.typed', {
-      strings: typed_strings,
-      loop: true,
-      typeSpeed: 100,
-      backSpeed: 50,
-      backDelay: 2000
-    });
+  const heroTyped = select('#hero-typed')
+  if (heroTyped) {
+    const typed_strings = heroTyped.getAttribute('data-typed-items') || ''
+    const strings = typed_strings
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+
+    if (typeof Typed !== 'undefined' && strings.length) {
+      new Typed('#hero-typed', {
+        strings,
+        typeSpeed: 70,
+        backSpeed: 40,
+        backDelay: 2000,
+        loop: true
+      })
+    }
   }
 
   /**
@@ -173,20 +179,38 @@
    */
   let skilsContent = select('.skills-content');
   if (skilsContent) {
-    new Waypoint({
-      element: skilsContent,
-      offset: '80%',
-      handler: function(direction) {
-        let progress = select('.progress .progress-bar', true);
-          progress.forEach((el) => {
-            const val = el.getAttribute('aria-valuenow') || '0'
-            el.style.width = val + '%'
-            // Update the visible percent text next to the skill label if present
-            const skillVal = el.closest('.progress').querySelector('.skill .val')
-            if (skillVal) skillVal.textContent = val + '%'
-          });
-      }
-    })
+    const animateSkills = () => {
+      let progress = select('.progress .progress-bar', true);
+      progress.forEach((el) => {
+        const val = el.getAttribute('aria-valuenow') || '0'
+        el.style.width = val + '%'
+        const skillVal = el.closest('.progress').querySelector('.skill .val')
+        if (skillVal) skillVal.textContent = val + '%'
+        el.classList.add('animated')
+      });
+    }
+
+    if (typeof Waypoint !== 'undefined') {
+      new Waypoint({
+        element: skilsContent,
+        offset: '80%',
+        handler: function(direction) {
+          animateSkills()
+          this.destroy()
+        }
+      })
+    } else if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          animateSkills()
+          io.disconnect()
+        })
+      }, { threshold: 0.15 })
+      io.observe(skilsContent)
+    } else {
+      window.addEventListener('load', animateSkills)
+    }
   }
 
   /**
@@ -216,59 +240,64 @@
         });
       }, true);
     }
-
   });
 
   /**
-   * Initiate portfolio lightbox 
+   * Initiate portfolio lightboxes
    */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
-  });
+  if (typeof GLightbox !== 'undefined') {
+    GLightbox({ selector: '.portfolio-lightbox' });
+    GLightbox({ selector: '.portfolio-details-lightbox', width: '90%', height: '90vh' });
+  }
 
   /**
-   * Initiate portfolio details lightbox 
+   * Click portfolio card to open external link
    */
-  const portfolioDetailsLightbox = GLightbox({
-    selector: '.portfolio-details-lightbox',
-    width: '90%',
-    height: '90vh'
-  });
+  on('click', '.portfolio .portfolio-wrap', function(e) {
+    if (e.target && e.target.closest && e.target.closest('a')) return
+
+    const external = this.querySelector('a.portfolio-external')
+    if (!external || !external.href) return
+
+    window.open(external.href, '_blank', 'noopener,noreferrer')
+  }, true)
 
   /**
    * Portfolio details slider
    */
-  new Swiper('.portfolio-details-slider', {
-    speed: 400,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
+  if (typeof Swiper !== 'undefined') {
+    new Swiper('.portfolio-details-slider', {
+      speed: 400,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'bullets',
+        clickable: true
+      }
+    });
 
-  /**
-   * Testimonials slider
-   */
-  new Swiper('.testimonials-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
+    /**
+     * Testimonials slider
+     */
+    new Swiper('.testimonials-slider', {
+      speed: 600,
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false
+      },
+      slidesPerView: 'auto',
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'bullets',
+        clickable: true
+      }
+    });
+  }
 
   /**
    * Animation on scroll
@@ -283,8 +312,10 @@
   });
 
   /**
-   * Initiate Pure Counter 
+   * Initiate Pure Counter
    */
-  new PureCounter();
+  if (typeof PureCounter !== 'undefined') {
+    new PureCounter();
+  }
 
 })()
