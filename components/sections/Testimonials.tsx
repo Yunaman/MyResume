@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { Quote, Star } from "lucide-react";
 import { useState, useEffect } from "react";
-import { useSound } from "@/hooks/useSound";
+// import { useSound } from "@/hooks/useSound";
 
 const testimonials = [
   {
@@ -56,8 +56,8 @@ export default function Testimonials() {
   const [isPaused, setIsPaused] = useState(false);
   
   // Sound effects
-  const { play: playSlide } = useSound("/sounds/slide.mp3", 0.3);
-  const { play: playClick } = useSound("/sounds/click.mp3", 0.2);
+  // const { play: playSlide } = useSound("/sounds/slide.mp3", 0.3);
+  // const { play: playClick } = useSound("/sounds/click.mp3", 0.2);
   
   // Auto-scroll slideshow
   useEffect(() => {
@@ -66,24 +66,24 @@ export default function Testimonials() {
     const interval = setInterval(() => {
       setActiveIndex((prev) => {
         const nextIndex = (prev + 1) % testimonials.length;
-        playSlide();
+        // playSlide();
         return nextIndex;
       });
     }, 5000); // Change slide every 5 seconds
     
     return () => clearInterval(interval);
-  }, [isAutoPlay, isPaused, playSlide]);
+  }, [isAutoPlay, isPaused]);
   
   const handleDotClick = (index: number) => {
     setActiveIndex(index);
-    playClick();
+    // playClick();
     setIsPaused(false);
   };
   
   const toggleAutoPlay = () => {
     setIsAutoPlay(!isAutoPlay);
     setIsPaused(false);
-    playClick();
+    // playClick();
   };
 
   return (

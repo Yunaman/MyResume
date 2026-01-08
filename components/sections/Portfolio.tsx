@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { ExternalLink, Github } from "lucide-react";
 import { useState } from "react";
-import { useSound } from "@/hooks/useSound";
+// import { useSound } from "@/hooks/useSound";
 
 import portfolio1 from "@/assets/img/portfolio/portfolio-1.jpg";
 import portfolio4 from "@/assets/img/portfolio/portfolio-4.jpg";
@@ -121,8 +121,8 @@ export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("All");
   
   // Sound effects
-  const { play: playHover } = useSound("/sounds/hover.mp3", 0.15);
-  const { play: playClick } = useSound("/sounds/click.mp3", 0.2);
+  // const { play: playHover } = useSound("/sounds/hover.mp3", 0.15);
+  // const { play: playClick } = useSound("/sounds/click.mp3", 0.2);
 
   const filteredProjects =
     activeCategory === "All"
@@ -200,9 +200,9 @@ export default function Portfolio() {
               key={category}
               onClick={() => {
                 setActiveCategory(category);
-                playClick();
+                // playClick();
               }}
-              onMouseEnter={() => playHover()}
+              // onMouseEnter={() => playHover()}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
               className={`px-6 py-2 text-sm font-medium tracking-wide transition-all duration-300 rounded-full border ${
@@ -233,9 +233,9 @@ export default function Portfolio() {
               target={project.liveUrl || project.githubUrl ? "_blank" : undefined}
               rel={project.liveUrl || project.githubUrl ? "noopener noreferrer" : undefined}
               className="group relative overflow-hidden rounded-3xl border border-primary/10 bg-primary/5 dark:bg-dark-card/40 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.45)]"
-              onMouseEnter={() => playHover()}
-              onFocus={() => playHover()}
-              onClick={() => playClick()}
+              // onMouseEnter={() => playHover()}
+              // onFocus={() => playHover()}
+              // onClick={() => playClick()}
               style={{ transformStyle: "preserve-3d" }}
             >
               <div className="absolute inset-0 pointer-events-none">
