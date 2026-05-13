@@ -1,26 +1,18 @@
-import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Preloader from "@/components/Preloader";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-  display: "swap",
-});
+import { PersonSchema, WebSiteSchema } from "@/components/JSONLd";
 
 export const metadata: Metadata = {
-  title: "Yenus Sadik • Full-Stack Developer & Digital Creator",
+  title: {
+    template: "%s | Yunus",
+    default: "Yunus | Interactive Developer & Digital Creator",
+  },
   description:
-    "Premium web development and digital creation services from Addis Ababa. Specializing in full-stack development, design, video editing, and digital marketing.",
+    "Ultra-premium interactive web experiences from Addis Ababa by Yunus, spanning full-stack engineering, cinematic design, motion systems, and digital storytelling.",
   keywords: [
     "Full-Stack Developer",
     "Web Developer",
@@ -30,14 +22,58 @@ export const metadata: Metadata = {
     "Next.js",
     "Video Editor",
     "Digital Marketing",
+    "UI/UX Designer",
+    "Freelancer",
+    "Portfolio",
   ],
-  authors: [{ name: "Yenus Sadik" }],
+  authors: [{ name: "Yunus" }],
+  creator: "Yunus",
+  publisher: "Yunus",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
-    title: "Yenus Sadik • Full-Stack Developer & Digital Creator",
+    title: "Yunus | Interactive Developer & Digital Creator",
     description:
       "Premium web development and digital creation services from Addis Ababa",
+    url: "https://yenus-sadik.vercel.app",
+    siteName: "Yenus Sadik Portfolio",
+    images: [
+      {
+        url: "https://yenus-sadik.vercel.app/assets/img/herobg1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Yunus - Interactive Developer & Digital Creator",
+      },
+    ],
     type: "website",
+    locale: "en_US",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yunus | Interactive Developer & Digital Creator",
+    description:
+      "Premium web development and digital creation services from Addis Ababa",
+    images: ["https://yenus-sadik.vercel.app/assets/img/herobg1.jpg"],
+    creator: "@yenus_sadik",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  other: {
+    rating: "general",
+    "geo.placename": "Addis Ababa, Ethiopia",
+    "geo.position": "9.03;38.75",
+    "geo.region": "ET",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -46,13 +82,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${playfair.variable} font-sans antialiased bg-light dark:bg-dark-bg text-primary dark:text-light transition-colors duration-300`}
+        className="bg-canvas font-sans text-foreground antialiased"
       >
         <ThemeProvider>
+          <Preloader />
           <Header />
-          <main>{children}</main>
+          <main className="relative overflow-hidden">
+            <PersonSchema />
+            <WebSiteSchema />
+            {children}
+          </main>
           <Footer />
         </ThemeProvider>
       </body>

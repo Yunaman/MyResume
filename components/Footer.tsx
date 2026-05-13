@@ -1,79 +1,84 @@
-"use client";
+'use client';
 
-import { Github, Linkedin, Twitter, Mail, Heart } from "lucide-react";
-import { motion } from "framer-motion";
+import { Mail } from 'lucide-react';
+import MagneticButton from '@/components/MagneticButton';
+import {
+  BrandGitHub,
+  BrandLinkedIn,
+  BrandTwitter,
+} from '@/components/BrandIcons';
+import Reveal from '@/components/Reveal';
 
 const socialLinks = [
-  { icon: Github, href: "https://github.com/yenuss", label: "GitHub" },
-  { icon: Linkedin, href: "https://linkedin.com/in/yenuss", label: "LinkedIn" },
-  { icon: Twitter, href: "https://twitter.com/yenuss", label: "Twitter" },
-  { icon: Mail, href: "mailto:yenus@example.com", label: "Email" },
+  { Icon: BrandGitHub, href: 'https://github.com/yenuss', label: 'GitHub' },
+  { Icon: BrandLinkedIn, href: 'https://linkedin.com/in/yenuss', label: 'LinkedIn' },
+  { Icon: BrandTwitter, href: 'https://twitter.com/yenuss', label: 'Twitter' },
+  { Icon: Mail, href: 'mailto:yunadreamboy@gmail.com', label: 'Email' },
+];
+
+const footerLinks = [
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Contact', href: '#contact' },
 ];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary dark:bg-dark-card text-light border-t border-transparent dark:border-dark-border">
-      <div className="container-custom py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Branding */}
-          <div className="text-center md:text-left">
-            <h3 className="text-2xl font-serif mb-2">Yenus Sadik</h3>
-            <p className="text-light/70 text-sm">
-              Full-Stack Developer & Digital Creator
+    <footer className="section-shell cinematic-section relative overflow-hidden pb-10 pt-4" data-tone="contact">
+      <div className="section-noise" />
+      <div className="section-beam" />
+      <div className="container-custom">
+        <Reveal interactive variant="flip" className="surface-card-strong glass-highlight rounded-[36px] p-8 md:p-10">
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <div className="eyebrow">Ready to Build</div>
+              <h2 className="heading-3 mt-6 text-[2.25rem]">
+                Let&apos;s create a digital experience that feels premium from the first scroll.
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-8 text-muted">
+                Yunus is an interactive developer and digital creator based in Addis Ababa,
+                available for global collaborations and high-quality product work.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target={social.label === 'Email' ? undefined : '_blank'}
+                  rel={social.label === 'Email' ? undefined : 'noopener noreferrer'}
+                >
+                  <MagneticButton
+                    strength={0.14}
+                    className="surface-panel h-12 w-12 rounded-2xl text-foreground hover:text-accent"
+                    aria-label={social.label}
+                  >
+                    <social.Icon size={18} />
+                  </MagneticButton>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 h-px w-full bg-white/10" />
+
+          <div className="mt-8 flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-wrap gap-5 text-sm text-muted">
+              {footerLinks.map((link) => (
+                <a key={link.label} href={link.href} className="transition-colors hover:text-accent">
+                  {link.label}
+                </a>
+              ))}
+            </div>
+            <p className="text-sm text-muted">
+              &copy; {currentYear} Yunus. Crafted with care in Addis Ababa.
             </p>
           </div>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-4">
-            {socialLinks.map((social, index) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.2, 
-                  rotate: 360,
-                  backgroundColor: "#B8986C",
-                  borderColor: "#B8986C"
-                }}
-                whileTap={{ scale: 0.9 }}
-                className="w-10 h-10 rounded-full border border-light/20 flex items-center justify-center transition-all duration-300"
-                aria-label={social.label}
-              >
-                <social.icon size={18} />
-              </motion.a>
-            ))}
-          </div>
-        </div>
-
-        {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-light/10 text-center text-sm text-light/60">
-          <p className="flex items-center justify-center gap-2">
-            Made with{" "}
-            <motion.span
-              animate={{ 
-                scale: [1, 1.2, 1],
-              }}
-              transition={{ 
-                duration: 1,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              <Heart size={16} className="text-accent" fill="currentColor" />
-            </motion.span>
-            {" "}in Addis Ababa
-          </p>
-          <p className="mt-2">
-            © {currentYear} Yenus Sadik. All rights reserved.
-          </p>
-        </div>
+        </Reveal>
       </div>
     </footer>
   );

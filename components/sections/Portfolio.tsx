@@ -1,18 +1,19 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { ExternalLink, Github } from "lucide-react";
-import { useState } from "react";
-// import { useSound } from "@/hooks/useSound";
+import Image from 'next/image';
+import { ArrowUpRight, ExternalLink } from 'lucide-react';
+import { useState } from 'react';
+import MagneticButton from '@/components/MagneticButton';
+import { BrandGitHub } from '@/components/BrandIcons';
+import Reveal from '@/components/Reveal';
+import SectionHeading from '@/components/SectionHeading';
 
-import portfolio1 from "@/assets/img/portfolio/portfolio-1.jpg";
-import portfolio4 from "@/assets/img/portfolio/portfolio-4.jpg";
-import portfolio5 from "@/assets/img/portfolio/portfolio-5.jpg";
-import portfolio9 from "@/assets/img/portfolio/portfolio-9.jpg";
-import portfolioDetails1 from "@/assets/img/portfolio/portfolio-details-1.jpg";
-import portfolioDetails2 from "@/assets/img/portfolio/portfolio-details-2.jpg";
+import portfolio1 from '@/assets/img/portfolio/portfolio-1.jpg';
+import portfolio4 from '@/assets/img/portfolio/portfolio-4.jpg';
+import portfolio5 from '@/assets/img/portfolio/portfolio-5.jpg';
+import portfolio9 from '@/assets/img/portfolio/portfolio-9.jpg';
+import portfolioDetails1 from '@/assets/img/portfolio/portfolio-details-1.jpg';
+import portfolioDetails2 from '@/assets/img/portfolio/portfolio-details-2.jpg';
 
 type Project = {
   id: number;
@@ -28,310 +29,214 @@ type Project = {
 const projects: Project[] = [
   {
     id: 1,
-    title: "Apple Clone",
-    category: "Web Development",
+    title: 'Apple Clone',
+    category: 'Web Development',
     description:
-      "A clean Apple-style landing page clone focused on layout precision, responsive UI, and smooth interactions.",
+      'A clean Apple-style landing page clone focused on layout precision, responsive UI, and smooth interactions.',
     image: portfolio1.src,
-    tags: ["HTML", "CSS", "JavaScript"],
-    // TODO: Replace with your Apple Clone live link
-    liveUrl: "https://apple-clone-flame.vercel.app/",
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://apple-clone-flame.vercel.app/',
   },
   {
     id: 2,
-    title: "Cake Store",
-    category: "Web Development",
+    title: 'Cake Store',
+    category: 'Web Development',
     description:
-      "An e-commerce cake store experience with a modern storefront, product-focused UI, and clean responsive design.",
+      'An e-commerce cake store experience with a modern storefront, product-focused UI, and clean responsive design.',
     image: portfolioDetails2.src,
-    tags: ["React", "UI"],
-    // TODO: Replace with your Cake Store live link
-    liveUrl: "https://cake-store-ten.vercel.app",
+    tags: ['React', 'UI'],
+    liveUrl: 'https://cake-store-ten.vercel.app',
   },
   {
     id: 3,
-    title: "Organic Ecommerce",
-    category: "Web Development",
+    title: 'Organic Ecommerce',
+    category: 'Web Development',
     description:
-      "A modern business website concept inspired by modern Ecommerce design patterns with polished layout and sections.",
+      'A modern business website concept inspired by contemporary ecommerce design patterns with polished layout and sections.',
     image: portfolio4.src,
-    tags: ["HTML", "CSS", "JavaScript"],
-    // TODO: Replace with your Bankist Business live link
-    liveUrl: "https://yuna-organic.vercel.app",
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://yuna-organic.vercel.app',
   },
   {
     id: 4,
-    title: "Yuna Videograph",
-    category: "Web Development",
+    title: 'Yuna Videograph',
+    category: 'Video Production',
     description:
-      "A video production portfolio built to showcase reels, services, and a strong visual brand presence.",
+      'A video production portfolio built to showcase reels, services, and a strong visual brand presence.',
     image: portfolioDetails1.src,
-    tags: ["Portfolio", "Branding", "Motion"],
-    // TODO: Replace with your Videograph live link
-    liveUrl: "https://yuna-videograph.vercel.app/",
+    tags: ['Portfolio', 'Branding', 'Motion'],
+    liveUrl: 'https://yuna-videograph.vercel.app/',
   },
   {
     id: 5,
-    title: "Feane Cafe",
-    category: "Web Development",
+    title: 'Feane Cafe',
+    category: 'Web Development',
     description:
-      "A cafe website concept featuring menu layout, hero sections, and a clean modern restaurant vibe.",
+      'A cafe website concept featuring menu layout, hero sections, and a clean modern restaurant atmosphere.',
     image: portfolio5.src,
-    tags: ["HTML", "CSS", "UI"],
-    // TODO: Replace with your Feane Cafe live link
-    liveUrl: "https://feane-cafe.vercel.app/",
+    tags: ['HTML', 'CSS', 'UI'],
+    liveUrl: 'https://feane-cafe.vercel.app/',
   },
   {
     id: 6,
-    title: "Digital Agreement",
-    category: "Web Development",
+    title: 'Digital Agreement',
+    category: 'Web Development',
     description:
-      "A digital agreement experience concept focused on clarity, flow, and a professional document UI.",
+      'A digital agreement experience focused on clarity, flow, and a professional document-first UI.',
     image: portfolio9.src,
-    tags: ["UI", "UX", "Web"],
-    // TODO: Replace with your Digital Agreement live link
-    liveUrl: "https://termagreement.vercel.app/",
+    tags: ['UI', 'UX', 'Web'],
+    liveUrl: 'https://termagreement.vercel.app/',
   },
 ];
 
-const categories = ["All", "Web Development", "Video Production"];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.15,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 18, scale: 0.98 },
-  show: { opacity: 1, y: 0, scale: 1 },
-};
+const categories = ['All', 'Web Development', 'Video Production'];
 
 export default function Portfolio() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const [activeCategory, setActiveCategory] = useState("All");
-  
-  // Sound effects
-  // const { play: playHover } = useSound("/sounds/hover.mp3", 0.15);
-  // const { play: playClick } = useSound("/sounds/click.mp3", 0.2);
+  const [activeCategory, setActiveCategory] = useState('All');
 
   const filteredProjects =
-    activeCategory === "All"
+    activeCategory === 'All'
       ? projects
-      : projects.filter((p) => p.category === activeCategory);
+      : projects.filter((project) => project.category === activeCategory);
 
   return (
-    <section
-      id="portfolio"
-      className="section-padding bg-light dark:bg-dark-bg relative overflow-hidden"
-      ref={ref}
-    >
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <motion.div
-          aria-hidden="true"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full bg-gradient-to-br from-accent/35 via-primary/20 to-transparent blur-3xl"
-        />
-        <motion.div
-          aria-hidden="true"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={inView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 1.3, ease: "easeOut", delay: 0.1 }}
-          className="absolute -bottom-28 -right-24 h-[520px] w-[520px] rounded-full bg-gradient-to-tr from-primary/25 via-accent/25 to-transparent blur-3xl"
-        />
-        <motion.div
-          aria-hidden="true"
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 1.1, ease: "easeOut", delay: 0.25 }}
-          className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.10),transparent_55%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.06),transparent_50%),radial-gradient(circle_at_40%_85%,rgba(255,255,255,0.05),transparent_55%)]"
-        />
-      </div>
-
+    <section id="portfolio" data-tone="portfolio" className="section-shell cinematic-section section-padding relative overflow-hidden">
+      <div className="section-noise" />
+      <div className="section-grid" />
+      <div className="section-beam" />
+      <div className="section-rings" />
+      <div className="ambient-orb ambient-orb--amber right-[4%] top-[12%] h-56 w-56" />
       <div className="container-custom">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-12"
-        >
-          <p className="text-accent text-sm tracking-widest uppercase mb-4">
-            Selected Works
-          </p>
-          <h2 className="heading-2 mb-6">
-            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Portfolio
-            </span>
-          </h2>
-          <p className="body-large text-primary/70">
-            A curated selection of projects showcasing technical expertise and
-            creative vision
-          </p>
-          <motion.div
-            aria-hidden="true"
-            initial={{ width: 0, opacity: 0 }}
-            animate={inView ? { width: 160, opacity: 1 } : {}}
-            transition={{ duration: 0.9, ease: "easeOut", delay: 0.15 }}
-            className="mx-auto mt-6 h-[2px] rounded-full bg-gradient-to-r from-transparent via-accent/70 to-transparent"
-          />
-        </motion.div>
+        <SectionHeading
+          eyebrow="Selected Works"
+          title="Projects designed to feel polished, useful, and unmistakably intentional."
+          description="I preserved the existing project content and upgraded the presentation around it: stronger hierarchy, richer cards, cleaner categorization, and a premium interaction model."
+        />
 
-        {/* Category Filter */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          {categories.map((category) => (
-            <motion.button
-              key={category}
-              onClick={() => {
-                setActiveCategory(category);
-                // playClick();
-              }}
-              // onMouseEnter={() => playHover()}
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className={`px-6 py-2 text-sm font-medium tracking-wide transition-all duration-300 rounded-full border ${
-                activeCategory === category
-                  ? "bg-primary dark:bg-accent text-light shadow-lg border-transparent shadow-primary/20"
-                  : "bg-primary/5 dark:bg-dark-card text-primary dark:text-light border-primary/10 hover:bg-primary/10 dark:hover:bg-dark-border"
-              }`}
-            >
-              {category}
-            </motion.button>
-          ))}
-        </motion.div>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          {categories.map((category) => {
+            const isActive = category === activeCategory;
 
-        {/* Projects Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "show" : "hidden"}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
+            return (
+              <MagneticButton
+                key={category}
+                strength={0.14}
+                onClick={() => setActiveCategory(category)}
+                className={`rounded-full px-5 py-3 text-xs font-semibold uppercase tracking-[0.24em] transition-colors ${
+                  isActive
+                    ? 'bg-accent text-slate-950'
+                    : 'surface-panel text-foreground/80 hover:text-accent'
+                }`}
+              >
+                {category}
+              </MagneticButton>
+            );
+          })}
+        </div>
+
+        <Reveal delay={0.08} className="mt-6 flex items-center justify-center">
+          <div className="story-frame rounded-full px-4 py-2.5">
+            <div className="flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-muted">
+              <span className="signal-dot h-2 w-2 rounded-full bg-accent" />
+              <span>Visible Projects</span>
+              <span className="text-foreground">
+                {String(filteredProjects.length).padStart(2, '0')}
+              </span>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filteredProjects.map((project, index) => (
-            <motion.a
+            <Reveal
               key={project.id}
-              variants={itemVariants}
-              transition={{ duration: 0.55, ease: "easeOut" }}
-              whileHover={{ y: -10, rotateX: 2, rotateY: -2 }}
-              href={project.liveUrl || project.githubUrl || "#"}
-              target={project.liveUrl || project.githubUrl ? "_blank" : undefined}
-              rel={project.liveUrl || project.githubUrl ? "noopener noreferrer" : undefined}
-              className="group relative overflow-hidden rounded-3xl border border-primary/10 bg-primary/5 dark:bg-dark-card/40 shadow-[0_20px_50px_-30px_rgba(0,0,0,0.45)]"
-              // onMouseEnter={() => playHover()}
-              // onFocus={() => playHover()}
-              // onClick={() => playClick()}
-              style={{ transformStyle: "preserve-3d" }}
+              delay={index * 0.06}
+              interactive
+              variant="flip"
+              className="group surface-card-strong glass-highlight overflow-hidden transition-transform duration-500 hover:-translate-y-1.5"
             >
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-accent/35 via-primary/20 to-transparent blur-2xl" />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-[radial-gradient(circle_at_20%_10%,rgba(255,255,255,0.18),transparent_55%)]" />
-              </div>
-
-              <div className="relative aspect-[4/3]">
-                <motion.div
-                  className="absolute inset-0"
-                  initial={{ scale: 1 }}
-                  whileHover={{ scale: 1.08, rotate: 0.2 }}
-                  transition={{ duration: 0.65, ease: "easeOut" }}
-                >
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority={index < 3}
-                  />
-                </motion.div>
-
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/30 to-transparent opacity-80" />
-
-                <div className="absolute left-4 top-4 z-20">
-                  <span className="inline-flex items-center gap-2 rounded-full bg-light/10 px-3 py-1 text-xs tracking-widest uppercase text-light/90 backdrop-blur">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    {project.category}
+              <div className="relative aspect-[1.1] overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                  priority={index < 3}
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,11,17,0.04),rgba(5,11,17,0.78))]" />
+                <div className="absolute left-5 right-5 top-5 flex items-start justify-between gap-4">
+                  <span className="eyebrow !px-3 !py-1.5 !text-[0.64rem]">{project.category}</span>
+                  <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-xs font-semibold text-white/80">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
 
-                <div className="absolute right-4 top-4 z-20">
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-light/10 text-light/90 text-sm font-semibold backdrop-blur border border-light/10">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-
-                <div className="absolute inset-x-0 bottom-0 z-20 p-5">
-                  <div className="glass-effect rounded-2xl p-4 border border-light/10">
-                    <h3 className="text-light text-xl font-serif leading-snug">
-                      {project.title}
-                    </h3>
-                    <p className="text-light/70 text-xs mt-2 line-clamp-1">
-                      {project.tags.slice(0, 4).join(" • ")}
-                    </p>
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <div className="glass-effect-dark rounded-[24px] p-5">
+                    <div className="mb-3 h-px w-14 bg-gradient-to-r from-accent/90 to-transparent transition-all duration-500 group-hover:w-24" />
+                    <h3 className="text-2xl font-semibold text-white">{project.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-white/68">{project.description}</p>
                   </div>
                 </div>
               </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.35 }}
-                className="absolute inset-0 z-30 flex flex-col justify-end p-6 bg-gradient-to-t from-primary via-primary/95 to-primary/20"
-              >
-                <p className="text-light/80 text-sm mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-5">
+              <div className="p-5 md:p-6">
+                <div className="flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs px-2 py-1 bg-light/10 text-light/80 rounded-lg"
+                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[0.7rem] uppercase tracking-[0.18em] text-foreground/72"
                     >
                       {tag}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4 text-light">
-                    {project.liveUrl && project.liveUrl !== "" && (
-                      <span className="flex items-center gap-2 text-sm">
+                <div className="mt-6 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-4 text-sm text-muted">
+                    {project.liveUrl ? (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 transition-colors hover:text-accent"
+                      >
                         <ExternalLink size={16} />
-                        <span>View Live</span>
-                      </span>
-                    )}
-                    {project.githubUrl && project.githubUrl !== "" && (
-                      <span className="flex items-center gap-2 text-sm">
-                        <Github size={16} />
-                        <span>Code</span>
-                      </span>
-                    )}
+                        Live
+                      </a>
+                    ) : null}
+                    {project.githubUrl ? (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 transition-colors hover:text-accent"
+                      >
+                        <BrandGitHub size={16} />
+                        Code
+                      </a>
+                    ) : null}
                   </div>
 
-                  <span className="inline-flex items-center gap-2 rounded-full bg-light/10 px-4 py-2 text-xs tracking-widest uppercase text-light/90 backdrop-blur border border-light/10">
+                  <MagneticButton
+                    strength={0.14}
+                    className="btn-outline px-4 py-2.5 text-[0.68rem]"
+                    onClick={() => {
+                      const url = project.liveUrl || project.githubUrl;
+                      if (url) {
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                      }
+                    }}
+                  >
                     Open
-                  </span>
+                    <ArrowUpRight size={14} />
+                  </MagneticButton>
                 </div>
-              </motion.div>
-            </motion.a>
+              </div>
+            </Reveal>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

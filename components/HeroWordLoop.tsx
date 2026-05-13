@@ -24,6 +24,7 @@ type HeroWordLoopProps = {
   phrases?: string[];
   cycleDurationMs?: number;
   typingSpeedMs?: number;
+  preferReducedMotion?: boolean;
 };
 
 function pickColor() {
@@ -34,7 +35,10 @@ export default function HeroWordLoop({
   phrases = DEFAULT_PHRASES,
   cycleDurationMs = 8000,
   typingSpeedMs = 38,
+  preferReducedMotion = false,
 }: HeroWordLoopProps) {
+  const actualCycleDurationMs = preferReducedMotion ? 15000 : cycleDurationMs;
+  const actualTypingSpeedMs = preferReducedMotion ? 20 : typingSpeedMs;
   const containerRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
@@ -52,7 +56,10 @@ export default function HeroWordLoop({
     let isSettled = false;
     let wordSpans: HTMLSpanElement[] = [];
 
-    const accentColor = getComputedStyle(document.documentElement).getPropertyValue("--hero-accent").trim() || "#B8986C";
+    const accentColor =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--hero-accent")
+        .trim() || "#B8986C";
 
     const reset = () => {
       container.innerHTML = "";
@@ -63,7 +70,10 @@ export default function HeroWordLoop({
     };
 
     const settlePhrase = () => {
-      if (isSettled) return;
+      if (isSettled) {
+        return;
+      }
+
       isSettled = true;
       wordSpans.forEach((span) => {
         span.style.setProperty("--w", accentColor);
@@ -78,10 +88,13 @@ export default function HeroWordLoop({
 
       const phrase = phrases[phraseIndex % phrases.length] ?? "";
       const words = phrase.split(/\s+/).filter(Boolean);
-      const typingTarget = Math.min(Math.max(1600, phrase.length * typingSpeedMs), cycleDurationMs * 0.6);
+      const typingTarget = Math.min(
+        Math.max(1600, phrase.length * actualTypingSpeedMs),
+        actualCycleDurationMs * 0.6
+      );
       const elapsed = ts - startTs;
 
-      if (elapsed >= cycleDurationMs) {
+      if (elapsed >= actualCycleDurationMs) {
         phraseIndex = (phraseIndex + 1) % phrases.length;
         startTs = ts;
         lastTs = ts;
@@ -97,7 +110,7 @@ export default function HeroWordLoop({
       }
 
       const dt = ts - lastTs;
-      if (dt < typingSpeedMs) {
+      if (dt < actualTypingSpeedMs) {
         frameId = requestAnimationFrame(typeStep);
         return;
       }
@@ -116,7 +129,8 @@ export default function HeroWordLoop({
 
       if (!liveSpan) {
         liveSpan = document.createElement("span");
-        liveSpan.className = "hero-word-loop__word hero-word-loop__word--live hero-word-loop__word--pop";
+        liveSpan.className =
+          "hero-word-loop__word hero-word-loop__word--live hero-word-loop__word--pop";
         liveSpan.style.setProperty("--w", pickColor());
         container.appendChild(liveSpan);
         container.appendChild(document.createTextNode(" "));
@@ -141,7 +155,7 @@ export default function HeroWordLoop({
     frameId = requestAnimationFrame(typeStep);
 
     return () => cancelAnimationFrame(frameId);
-  }, [phrases, cycleDurationMs, typingSpeedMs]);
+  }, [actualCycleDurationMs, actualTypingSpeedMs, phrases]);
 
   return (
     <span ref={containerRef} className="hero-word-loop" aria-live="polite" />

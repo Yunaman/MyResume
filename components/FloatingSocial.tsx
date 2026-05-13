@@ -1,6 +1,7 @@
 "use client";
 
-import { Instagram, BriefcaseBusiness } from "lucide-react";
+import { BriefcaseBusiness } from "lucide-react";
+import { BrandInstagram } from "@/components/BrandIcons";
 
 type FloatingSocialProps = {
   instagramUrl: string;
@@ -30,7 +31,7 @@ export default function FloatingSocial({
         className="floating-social__btn floating-social__btn--instagram"
         aria-label="Instagram"
       >
-        <Instagram size={20} aria-hidden="true" />
+        <BrandInstagram size={20} />
       </a>
 
       <a

@@ -1,262 +1,222 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { useState } from "react";
+import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { useState } from 'react';
+import MagneticButton from '@/components/MagneticButton';
+import Reveal from '@/components/Reveal';
+import SectionHeading from '@/components/SectionHeading';
+
+const contactDetails = [
+  {
+    icon: MapPin,
+    label: 'Location',
+    value: 'Addis Ababa, Ethiopia',
+    href: undefined,
+  },
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'yunadreamboy@gmail.com',
+    href: 'mailto:yunadreamboy@gmail.com',
+  },
+  {
+    icon: Phone,
+    label: 'Phone',
+    value: '+251 974557038',
+    href: 'tel:+251974557038',
+  },
+];
 
 export default function Contact() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus('idle');
 
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-      setSubmitStatus("success");
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      });
+    } catch (error) {
+      console.error(error);
+      setSubmitStatus('error');
+    } finally {
       setIsSubmitting(false);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-
-      // Reset status after 3 seconds
-      setTimeout(() => setSubmitStatus("idle"), 3000);
-    }, 1500);
+    }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
+    const { name, value } = event.target;
+    setFormData((current) => ({
+      ...current,
+      [name]: value,
     }));
   };
 
   return (
-    <section id="contact" className="section-padding bg-primary/5 dark:bg-dark-card" ref={ref}>
+    <section id="contact" data-tone="contact" className="section-shell cinematic-section section-padding relative overflow-hidden">
+      <div className="section-noise" />
+      <div className="section-grid" />
+      <div className="section-beam" />
+      <div className="section-rings" />
+      <div className="ambient-orb ambient-orb--mint right-[8%] top-[14%] h-64 w-64" />
       <div className="container-custom">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <p className="text-accent text-sm tracking-widest uppercase mb-4">
-            Get In Touch
-          </p>
-          <h2 className="heading-2 mb-6">Let&apos;s Work Together</h2>
-          <p className="body-large text-primary/70">
-            Have a project in mind? Let&apos;s discuss how we can bring your vision
-            to life
-          </p>
-        </motion.div>
+        <SectionHeading
+          eyebrow="Get In Touch"
+          title="If you have a project in mind, let's shape it into something memorable."
+          description="The contact area now feels like the close of the story instead of a plain form block, while keeping the existing API route and deployment behavior intact."
+        />
 
-        <div className="grid md:grid-cols-5 gap-12 lg:gap-20">
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8 }}
-            className="md:col-span-2 space-y-8"
-          >
-            <div>
-              <h3 className="heading-3 mb-8">Contact Information</h3>
-              
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="text-accent" size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Location</h4>
-                    <p className="text-primary/70">
-                      Addis Ababa, Ethiopia
-                    </p>
-                  </div>
-                </div>
+        <div className="mt-14 grid gap-6 xl:grid-cols-[0.9fr_1.1fr]">
+          <Reveal interactive variant="rotate" className="surface-card-strong glass-highlight p-7 md:p-8">
+            <div className="eyebrow">Open for Select Collaborations</div>
+            <h3 className="heading-3 mt-6 text-[2rem]">
+              Freelance work, product builds, and interface-driven brand experiences.
+            </h3>
+            <p className="mt-4 text-sm leading-8 text-muted">
+              Available for freelance work and full-time opportunities. Currently accepting
+              projects that value strong execution, thoughtful design, and production-ready code.
+            </p>
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="text-accent" size={20} />
+            <div className="mt-8 grid gap-4">
+              {contactDetails.map((item) => {
+                const content = (
+                  <div className="surface-panel flex items-start gap-4 rounded-[24px] p-4">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-accent/15 bg-accent/10 text-accent">
+                      <item.icon size={18} />
+                    </div>
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.3em] text-muted">{item.label}</div>
+                      <div className="mt-2 text-base font-medium text-foreground">{item.value}</div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Email</h4>
-                    <a
-                      href="mailto:yenus@example.com"
-                      className="text-primary/70 hover:text-accent transition-colors"
-                    >
-                      yenus@example.com
-                    </a>
-                  </div>
-                </div>
+                );
 
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="text-accent" size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold mb-1">Phone</h4>
-                    <a
-                      href="tel:+251912345678"
-                      className="text-primary/70 hover:text-accent transition-colors"
-                    >
-                      +251 91 234 5678
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-8 border-t border-primary/10">
-              <p className="text-primary/60 text-sm leading-relaxed">
-                Available for freelance work and full-time opportunities.
-                Currently accepting projects for Q4 2024.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="md:col-span-3"
-          >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium mb-2"
+                return item.href ? (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="transition-transform duration-300 hover:-translate-y-1"
                   >
-                    Your Name
-                  </label>
-                  <motion.input
-                    whileFocus={{ scale: 1.02, borderColor: "#B8986C" }}
+                    {content}
+                  </a>
+                ) : (
+                  <div key={item.label}>{content}</div>
+                );
+              })}
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1} interactive variant="flip" className="surface-card-strong glass-highlight">
+            <form onSubmit={handleSubmit} className="grid gap-5 p-7 md:p-8">
+              <div className="grid gap-5 md:grid-cols-2">
+                <label className="grid gap-2 text-sm text-foreground/80">
+                  Your Name
+                  <input
                     type="text"
                     id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-light dark:bg-dark-bg border-2 border-primary/10 dark:border-dark-border focus:border-accent focus:outline-none transition-all duration-300 dark:text-light"
+                    className="input-premium"
                     placeholder="John Doe"
                   />
-                </div>
+                </label>
 
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium mb-2"
-                  >
-                    Your Email
-                  </label>
-                  <motion.input
-                    whileFocus={{ scale: 1.02, borderColor: "#B8986C" }}
+                <label className="grid gap-2 text-sm text-foreground/80">
+                  Your Email
+                  <input
                     type="email"
                     id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-light dark:bg-dark-bg border-2 border-primary/10 dark:border-dark-border focus:border-accent focus:outline-none transition-all duration-300 dark:text-light"
+                    className="input-premium"
                     placeholder="john@example.com"
                   />
-                </div>
+                </label>
               </div>
 
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Subject
-                </label>
-                <motion.input
-                  whileFocus={{ scale: 1.02, borderColor: "#B8986C" }}
+              <label className="grid gap-2 text-sm text-foreground/80">
+                Subject
+                <input
                   type="text"
                   id="subject"
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-light dark:bg-dark-bg border-2 border-primary/10 dark:border-dark-border focus:border-accent focus:outline-none transition-all duration-300 dark:text-light"
+                  className="input-premium"
                   placeholder="Project Inquiry"
                 />
-              </div>
+              </label>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2"
-                >
-                  Message
-                </label>
-                <motion.textarea
-                  whileFocus={{ scale: 1.02, borderColor: "#B8986C" }}
+              <label className="grid gap-2 text-sm text-foreground/80">
+                Message
+                <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-light dark:bg-dark-bg border-2 border-primary/10 dark:border-dark-border focus:border-accent focus:outline-none transition-all duration-300 resize-none dark:text-light"
+                  rows={7}
+                  className="input-premium resize-none rounded-[24px]"
                   placeholder="Tell me about your project..."
                 />
-              </div>
+              </label>
 
-              <motion.button
+              <MagneticButton
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(184, 152, 108, 0.3)" }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-primary flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                strength={0.16}
+                className="btn-primary mt-2 inline-flex w-full items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isSubmitting ? (
-                  "Sending..."
-                ) : (
-                  <>
-                    Send Message
-                    <Send size={18} />
-                  </>
-                )}
-              </motion.button>
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+                <Send size={16} />
+              </MagneticButton>
 
-              {submitStatus === "success" && (
-                <motion.p
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-green-600 text-sm"
-                >
-                  &#10003; Message sent successfully! I&apos;ll get back to you soon.
-                </motion.p>
-              )}
+              {submitStatus === 'success' ? (
+                <p className="text-sm text-green-400">
+                  Message sent successfully. I&apos;ll get back to you soon.
+                </p>
+              ) : null}
 
-              {submitStatus === "error" && (
-                <motion.p
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-red-600 text-sm"
-                >
-                  ✗ Something went wrong. Please try again.
-                </motion.p>
-              )}
+              {submitStatus === 'error' ? (
+                <p className="text-sm text-red-400">
+                  Something went wrong. Please try again.
+                </p>
+              ) : null}
             </form>
-          </motion.div>
+          </Reveal>
         </div>
       </div>
     </section>

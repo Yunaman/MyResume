@@ -11,40 +11,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#0D0D0D",
-        accent: "#B8986C", // Muted gold accent
-        light: "#FFFFFF",
+        primary: "#0f172a",
+        accent: "#8df7d3",
+        light: "#f8fafc",
         dark: {
-          bg: "#0A0A0A",
-          card: "#151515",
-          border: "#2A2A2A",
+          bg: "#061018",
+          card: "#0d1822",
+          border: "#203445",
         },
       },
       fontFamily: {
-        sans: ["var(--font-inter)"],
-        serif: ["var(--font-playfair)"],
+        sans: ["var(--font-manrope)"],
+        serif: ["var(--font-syne)"],
       },
       maxWidth: {
-        content: "1200px",
-      },
-      animation: {
-        "fade-in": "fadeIn 0.8s ease-out",
-        "slide-up": "slideUp 0.8s ease-out",
-        "scale-in": "scaleIn 0.3s ease-out",
-      },
-      keyframes: {
-        fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
-        },
-        slideUp: {
-          "0%": { opacity: "0", transform: "translateY(30px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        scaleIn: {
-          "0%": { transform: "scale(1)" },
-          "100%": { transform: "scale(1.05)" },
-        },
+        content: "1240px",
       },
     },
   },

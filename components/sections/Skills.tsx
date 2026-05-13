@@ -1,88 +1,110 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { motion } from 'framer-motion';
+import { Braces, LayoutDashboard, Megaphone, Palette, ServerCog, Video } from 'lucide-react';
+import Reveal from '@/components/Reveal';
+import SectionHeading from '@/components/SectionHeading';
 
 const skillSet = [
   {
-    name: "React",
+    name: 'React',
     value: 70,
     description:
-      "Modern component-driven interfaces using React, Next.js, TypeScript, and Tailwind",
+      'Modern component-driven interfaces using React, Next.js, TypeScript, and Tailwind.',
+    icon: Braces,
   },
   {
-    name: "Front-end Development",
+    name: 'Front-end Development',
     value: 75,
     description:
-      "Pixel-perfect, responsive UX with performance-first animations and accessibility in mind",
+      'Responsive UX with performance-first animation, accessibility, and premium visual finish.',
+    icon: LayoutDashboard,
   },
   {
-    name: "Back-end Development",
+    name: 'Back-end Development',
     value: 70,
     description:
-      "Robust APIs and data layers using Node.js, Express, Prisma, and cloud-native tooling",
+      'Robust APIs and scalable data flows using Node.js, Express, Prisma, and cloud-ready patterns.',
+    icon: ServerCog,
+  },
+  {
+    name: 'UI/UX Design',
+    value: 80,
+    description:
+      'User-centered product thinking, strong layout systems, and clear interaction hierarchy.',
+    icon: Palette,
+  },
+  {
+    name: 'Video Editing',
+    value: 65,
+    description:
+      'Motion-aware storytelling with Premiere Pro, After Effects, and clean visual rhythm.',
+    icon: Video,
+  },
+  {
+    name: 'Digital Marketing',
+    value: 60,
+    description: 'Audience-minded campaigns across SEO, social, and messaging strategy.',
+    icon: Megaphone,
   },
 ];
 
 export default function Skills() {
-  const [containerRef, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.25,
-  });
-
   return (
-    <section id="skills" className="section-padding bg-primary/5 dark:bg-dark-card">
-      <div className="container-custom" ref={containerRef}>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <p className="text-accent text-sm tracking-[0.35em] uppercase mb-4">
-            Core Disciplines
-          </p>
-          <h2 className="heading-2 mb-6">Hybrid Craft. Technical Precision.</h2>
-          <p className="body-large text-primary/70 dark:text-light/70">
-            A balanced blend of product design sensibility, modern engineering, and systems thinking
-            to deliver experiences that feel premium, fast, and scalable.
-          </p>
-        </motion.div>
+    <section id="skills" data-tone="skills" className="section-shell cinematic-section section-padding relative overflow-hidden">
+      <div className="section-noise" />
+      <div className="section-grid" />
+      <div className="section-beam" />
+      <div className="ambient-orb ambient-orb--mint left-[6%] top-[14%] h-52 w-52" />
+      <div className="container-custom">
+        <SectionHeading
+          eyebrow="Core Disciplines"
+          title="Hybrid craft shaped by product thinking, motion, and technical depth."
+          description="I work across the layers that make a portfolio or product feel complete: the visual system, the codebase behind it, and the narrative that ties both together."
+        />
 
-        <div className="max-w-4xl mx-auto grid gap-10">
+        <div className="mt-14 grid gap-5 lg:grid-cols-2">
           {skillSet.map((skill, index) => (
-            <motion.div
+            <Reveal
               key={skill.name}
-              initial={{ opacity: 0, y: 24 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.12, ease: "easeOut" }}
-              className="rounded-2xl bg-light/80 dark:bg-dark-bg/60 shadow-[0px_18px_60px_rgba(15,15,15,0.08)] dark:shadow-none backdrop-blur-md border border-light/40 dark:border-dark-border px-8 py-8"
+              delay={index * 0.08}
+              interactive
+              className="surface-card group glass-highlight overflow-hidden p-6 md:p-7"
             >
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-6">
-                <div>
-                  <h3 className="text-2xl font-serif text-primary dark:text-light">
-                    {skill.name}
-                  </h3>
-                  <p className="text-sm text-primary/70 dark:text-light/60 mt-2 max-w-xl">
-                    {skill.description}
-                  </p>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-accent/15 bg-accent/10 text-accent">
+                    <skill.icon size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-semibold text-foreground transition-colors group-hover:text-accent">
+                      {skill.name}
+                    </h3>
+                    <p className="mt-3 max-w-xl text-sm leading-7 text-muted">
+                      {skill.description}
+                    </p>
+                  </div>
                 </div>
-
-                <span className="text-3xl font-light text-accent min-w-[4rem] text-right">
-                  {skill.value}%
-                </span>
+                <div className="text-right">
+                  <div className="text-3xl font-semibold text-foreground">{skill.value}%</div>
+                  <div className="mt-1 text-[0.7rem] uppercase tracking-[0.26em] text-muted">
+                    Confidence
+                  </div>
+                </div>
               </div>
 
-              <div className="relative h-3 w-full overflow-hidden rounded-full bg-primary/10 dark:bg-dark-border/60">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={inView ? { width: `${skill.value}%` } : { width: 0 }}
-                  transition={{ duration: 1, delay: 0.2 + index * 0.12, ease: "easeOut" }}
-                  className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-accent via-accent/80 to-primary"
-                  style={{ boxShadow: "0px 12px 30px rgba(184, 152, 108, 0.25)" }}
-                />
+              <div className="mt-7">
+                <div className="h-3 rounded-full bg-white/8">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.value}%` }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{ duration: 0.9, delay: 0.18 + index * 0.05, ease: 'easeOut' }}
+                    className="h-full rounded-full bg-gradient-to-r from-accent via-accent-strong to-secondary"
+                  />
+                </div>
               </div>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>
