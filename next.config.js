@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: '.next-runtime',
   images: {
     remotePatterns: [
       {
@@ -13,9 +12,6 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
   },
   reactStrictMode: true,
-  turbopack: {
-    root: __dirname,
-  },
 }
 
 module.exports = nextConfig
