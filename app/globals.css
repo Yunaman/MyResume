@@ -22,32 +22,32 @@
     --highlight: #ffad66;
     --shadow-lg: 0 32px 80px rgba(8, 18, 28, 0.14);
     --shadow-md: 0 18px 50px rgba(8, 18, 28, 0.1);
-    --shadow-glow: 0 0 0 1px rgba(141, 247, 211, 0.12), 0 24px 80px rgba(8, 18, 28, 0.18);
-    --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
-    --ease-swift: cubic-bezier(0.16, 1, 0.3, 1);
-    --section-tint-a: rgba(141, 247, 211, 0.16);
-    --section-tint-b: rgba(124, 114, 255, 0.12);
-    --section-tint-c: rgba(255, 173, 102, 0.08);
+    --shadow-glow: 0 0 0 1px rgba(141, 247, 211, 0.05), 0 12px 40px rgba(8, 18, 28, 0.1);
+    --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-swift: cubic-bezier(0.2, 0, 0, 1);
+    --section-tint-a: rgba(141, 247, 211, 0.06);
+    --section-tint-b: rgba(124, 114, 255, 0.05);
+    --section-tint-c: rgba(255, 173, 102, 0.03);
     --noise:
-      radial-gradient(circle at top, rgba(141, 247, 211, 0.18), transparent 30%),
-      radial-gradient(circle at 20% 20%, rgba(124, 114, 255, 0.1), transparent 25%),
-      radial-gradient(circle at 80% 0%, rgba(255, 173, 102, 0.12), transparent 20%);
+      radial-gradient(circle at top, rgba(141, 247, 211, 0.08), transparent 30%),
+      radial-gradient(circle at 20% 20%, rgba(124, 114, 255, 0.04), transparent 25%),
+      radial-gradient(circle at 80% 0%, rgba(255, 173, 102, 0.05), transparent 20%);
   }
 
   .dark {
     --canvas: #050b11;
     --foreground: #ecf6ff;
     --muted: #90a5b8;
-    --panel: rgba(10, 20, 30, 0.68);
-    --panel-strong: rgba(11, 24, 36, 0.86);
-    --line: rgba(149, 179, 206, 0.12);
-    --line-strong: rgba(149, 179, 206, 0.22);
-    --shadow-lg: 0 40px 100px rgba(0, 0, 0, 0.42);
-    --shadow-md: 0 18px 60px rgba(0, 0, 0, 0.3);
+    --panel: rgba(10, 20, 30, 0.4);
+    --panel-strong: rgba(11, 24, 36, 0.6);
+    --line: rgba(149, 179, 206, 0.08);
+    --line-strong: rgba(149, 179, 206, 0.15);
+    --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.2);
     --noise:
-      radial-gradient(circle at top, rgba(141, 247, 211, 0.14), transparent 30%),
-      radial-gradient(circle at 20% 20%, rgba(124, 114, 255, 0.14), transparent 25%),
-      radial-gradient(circle at 80% 0%, rgba(255, 173, 102, 0.14), transparent 20%);
+      radial-gradient(circle at top, rgba(141, 247, 211, 0.06), transparent 30%),
+      radial-gradient(circle at 20% 20%, rgba(124, 114, 255, 0.06), transparent 25%),
+      radial-gradient(circle at 80% 0%, rgba(255, 173, 102, 0.06), transparent 20%);
   }
 
   html {
@@ -79,13 +79,13 @@
     inset: 0;
     pointer-events: none;
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 72px 72px;
-    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 92%);
-    opacity: 0.22;
+      linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 90%);
+    opacity: 0.15;
     z-index: -1;
-    animation: grid-drift 18s linear infinite;
+    animation: grid-drift 24s linear infinite;
   }
 
   body::after {
@@ -94,12 +94,12 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 50% 0%, rgba(141, 247, 211, 0.08), transparent 42%),
-      radial-gradient(circle at 100% 20%, rgba(124, 114, 255, 0.06), transparent 28%);
+      radial-gradient(circle at 50% 0%, rgba(141, 247, 211, 0.04), transparent 40%),
+      radial-gradient(circle at 100% 20%, rgba(124, 114, 255, 0.03), transparent 25%);
     mix-blend-mode: screen;
-    opacity: 0.78;
+    opacity: 0.5;
     z-index: -1;
-    animation: atmosphere-shift 20s ease-in-out infinite alternate;
+    animation: atmosphere-shift 30s ease-in-out infinite alternate;
   }
 
   h1,
@@ -171,19 +171,20 @@
   }
 
   .heading-1 {
-    @apply text-[clamp(2.95rem,7.2vw,6.25rem)] font-serif font-semibold leading-[0.92] tracking-[-0.055em];
+    @apply text-[clamp(3.5rem,8vw,7.5rem)] font-serif font-medium leading-[0.9] tracking-[-0.06em];
   }
 
   .heading-2 {
-    @apply text-[clamp(2.25rem,5.4vw,4.55rem)] font-serif font-semibold leading-[0.98] tracking-[-0.04em];
+    @apply text-[clamp(2.5rem,6vw,5rem)] font-serif font-medium leading-[0.95] tracking-[-0.05em];
   }
 
   .heading-3 {
-    @apply text-[clamp(1.55rem,3vw,2.35rem)] font-serif font-semibold tracking-[-0.03em];
+    @apply text-[clamp(1.75rem,3.5vw,2.75rem)] font-serif font-medium tracking-[-0.04em];
   }
 
   .body-large {
-    @apply text-base leading-8 md:text-lg;
+    @apply text-base leading-relaxed md:text-xl md:leading-[1.6];
+    color: var(--muted);
   }
 
   .btn-primary {
@@ -208,25 +209,25 @@
     background: var(--panel);
     border: 1px solid var(--line);
     box-shadow: var(--shadow-md);
-    backdrop-filter: blur(22px);
+    backdrop-filter: blur(12px);
   }
 
   .surface-card {
-    @apply rounded-[28px];
+    @apply rounded-[24px];
     position: relative;
     background: var(--panel);
     border: 1px solid var(--line);
     box-shadow: var(--shadow-md);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
   }
 
   .surface-card-strong {
-    @apply rounded-[32px];
+    @apply rounded-[28px];
     position: relative;
     background: var(--panel-strong);
     border: 1px solid var(--line-strong);
     box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(28px);
+    backdrop-filter: blur(16px);
   }
 
   .eyebrow {
@@ -468,22 +469,22 @@
   .ambient-orb {
     position: absolute;
     border-radius: 999px;
-    filter: blur(48px);
+    filter: blur(64px);
     pointer-events: none;
-    opacity: 0.72;
+    opacity: 0.45;
     z-index: -1;
   }
 
   .ambient-orb--mint {
-    background: radial-gradient(circle, rgba(141, 247, 211, 0.16), transparent 66%);
+    background: radial-gradient(circle, rgba(141, 247, 211, 0.1), transparent 65%);
   }
 
   .ambient-orb--violet {
-    background: radial-gradient(circle, rgba(124, 114, 255, 0.16), transparent 66%);
+    background: radial-gradient(circle, rgba(124, 114, 255, 0.1), transparent 65%);
   }
 
   .ambient-orb--amber {
-    background: radial-gradient(circle, rgba(255, 173, 102, 0.14), transparent 66%);
+    background: radial-gradient(circle, rgba(255, 173, 102, 0.08), transparent 65%);
   }
 
   .glass-highlight {
@@ -565,28 +566,22 @@
   .nav-shell {
     position: relative;
     overflow: hidden;
-    border-radius: 30px;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)),
-      rgba(8, 18, 28, 0.44);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow:
-      0 18px 50px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.16);
-    backdrop-filter: blur(26px) saturate(160%);
+    border-radius: 999px;
+    background: rgba(8, 18, 28, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(0px);
+    transition: all 400ms var(--ease-premium);
+  }
+
+  .nav-shell.is-scrolled {
+    background: rgba(8, 18, 28, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px) saturate(150%);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   }
 
   .nav-shell::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(90deg, transparent, rgba(141, 247, 211, 0.18), transparent),
-      radial-gradient(circle at top left, rgba(255, 255, 255, 0.14), transparent 35%);
-    background-size: 220% 100%, 100% 100%;
-    opacity: 0.85;
-    animation: beam-pan 10s linear infinite;
-    pointer-events: none;
+    display: none;
   }
 
   .nav-link {

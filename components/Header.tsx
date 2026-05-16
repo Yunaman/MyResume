@@ -88,85 +88,71 @@ export default function Header() {
       <motion.header
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: isHidden ? -120 : 0, opacity: 1 }}
-        transition={{ duration: reduceMotion ? 0.25 : 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed inset-x-0 top-0 z-[80] px-4 pt-4 md:px-6"
+        transition={{ duration: reduceMotion ? 0.25 : 0.7, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed inset-x-0 top-0 z-[80] px-4 pt-6 md:px-6"
       >
-        <div className={`container-custom transition-all duration-500 ${isScrolled ? 'translate-y-0' : 'translate-y-1'}`}>
+        <div className="container-custom">
           <div
-            className={`nav-shell transition-all duration-500 ${
-              isScrolled ? 'shadow-[0_30px_90px_rgba(0,0,0,0.28)]' : 'shadow-[0_16px_56px_rgba(0,0,0,0.16)]'
+            className={`nav-shell transition-all duration-700 ${
+              isScrolled ? 'is-scrolled mx-auto max-w-2xl' : 'mx-auto max-w-4xl'
             }`}
           >
           <motion.div
             aria-hidden="true"
             style={{ scaleX: progressScale, transformOrigin: 'left' }}
-            className="absolute inset-x-8 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-accent to-secondary opacity-90"
+            className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent opacity-60"
           />
-            <div className="pointer-events-none absolute inset-x-10 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-          <nav className="flex items-center justify-between gap-4 px-2 py-3 md:px-5">
+          <nav className="flex items-center justify-between gap-6 px-4 py-2.5 md:px-6">
             <button
               type="button"
               onClick={() => handleNavClick('#hero')}
               data-cursor="interactive"
-              className="group flex items-center gap-4 rounded-full px-3 py-2 text-left"
+              className="group flex items-center gap-3"
             >
-              <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-sm font-semibold tracking-[0.34em] text-accent shadow-[0_0_36px_rgba(141,247,211,0.2)]">
-                <span className="absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_68%)]" />
-                YS
+              <span className="text-sm font-bold tracking-[0.4em] text-foreground transition-colors group-hover:text-accent">
+                YUNUS
               </span>
-              <span className="hidden sm:block">
-                <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.42em] text-muted">
-                  Creative System
-                </span>
-                <span className="block text-base font-semibold text-foreground transition-colors group-hover:text-accent">
-                  Yunus
-                </span>
-              </span>
+              <span className="h-1 w-1 rounded-full bg-accent" />
             </button>
 
-            <div className="hidden items-center gap-3 lg:flex">
-              <div className="surface-panel flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] px-2 py-1.5">
+            <div className="hidden items-center gap-8 lg:flex">
+              <div className="flex items-center gap-7">
                 {navLinks.map((link) => {
                   const isActive = activeSection === link.href.replace('#', '');
 
                   return (
-                    <MagneticButton
+                    <button
                       key={link.name}
-                      strength={0.18}
                       onClick={() => handleNavClick(link.href)}
-                      className={`nav-link relative rounded-full px-4 py-2.5 text-[0.68rem] font-semibold transition-colors ${
-                        isActive ? 'text-slate-950' : 'text-foreground/80 hover:text-accent'
+                      className={`relative text-[0.62rem] font-bold uppercase tracking-[0.25em] transition-colors hover:text-accent ${
+                        isActive ? 'text-accent' : 'text-foreground/70'
                       }`}
                     >
+                      {link.name}
                       {isActive && (
                         <motion.span
-                          layoutId="active-nav-pill"
-                          className="absolute inset-0 rounded-full bg-[linear-gradient(135deg,rgba(141,247,211,1),rgba(255,173,102,0.92),rgba(124,114,255,0.88))] shadow-[0_18px_40px_rgba(141,247,211,0.24)]"
-                          transition={{ type: 'spring', stiffness: 360, damping: 32 }}
+                          layoutId="nav-underline"
+                          className="absolute -bottom-1 left-0 h-[1px] w-full bg-accent"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                         />
                       )}
-                      <span className="relative z-10">{link.name}</span>
-                    </MagneticButton>
+                    </button>
                   );
                 })}
               </div>
-              <div className="hidden xl:flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-[0.66rem] uppercase tracking-[0.34em] text-muted">
-                Available for select builds
-                <MoveUpRight size={14} className="text-accent" />
-              </div>
+              <div className="h-4 w-px bg-white/10" />
               <ThemeToggle />
             </div>
 
             <div className="flex items-center gap-3 lg:hidden">
               <ThemeToggle />
-              <MagneticButton
-                strength={0.12}
+              <button
                 onClick={() => setIsMobileMenuOpen((value) => !value)}
-                className="surface-panel h-12 w-12 rounded-2xl"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5"
                 aria-label="Toggle menu"
               >
-                {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-              </MagneticButton>
+                {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+              </button>
             </div>
           </nav>
           </div>

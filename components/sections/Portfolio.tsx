@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { ArrowUpRight, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
@@ -100,139 +101,95 @@ export default function Portfolio() {
       : projects.filter((project) => project.category === activeCategory);
 
   return (
-    <section id="portfolio" data-tone="portfolio" className="section-shell cinematic-section section-padding relative overflow-hidden">
-      <div className="section-noise" />
-      <div className="section-grid" />
-      <div className="section-beam" />
-      <div className="section-rings" />
+    <section id="portfolio" data-tone="portfolio" className="section-shell section-padding relative overflow-hidden">
+      <div className="section-noise opacity-10" />
       <div className="ambient-orb ambient-orb--amber right-[4%] top-[12%] h-56 w-56" />
       <div className="container-custom">
         <SectionHeading
           eyebrow="Selected Works"
-          title="Projects designed to feel polished, useful, and unmistakably intentional."
-          description="I preserved the existing project content and upgraded the presentation around it: stronger hierarchy, richer cards, cleaner categorization, and a premium interaction model."
+          title="Digital products with intent."
+          description="A collection of projects focused on performance, clarity, and visual precision."
         />
 
-        <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <div className="mt-12 flex flex-wrap justify-center gap-8">
           {categories.map((category) => {
             const isActive = category === activeCategory;
 
             return (
-              <MagneticButton
+              <button
                 key={category}
-                strength={0.14}
                 onClick={() => setActiveCategory(category)}
-                className={`rounded-full px-5 py-3 text-xs font-semibold uppercase tracking-[0.24em] transition-colors ${
-                  isActive
-                    ? 'bg-accent text-slate-950'
-                    : 'surface-panel text-foreground/80 hover:text-accent'
+                className={`relative text-[0.65rem] font-bold uppercase tracking-[0.3em] transition-colors ${
+                  isActive ? 'text-accent' : 'text-muted/60 hover:text-foreground'
                 }`}
               >
                 {category}
-              </MagneticButton>
+                {isActive && (
+                  <motion.span
+                    layoutId="portfolio-cat"
+                    className="absolute -bottom-2 left-0 h-[1px] w-full bg-accent"
+                  />
+                )}
+              </button>
             );
           })}
         </div>
 
-        <Reveal delay={0.08} className="mt-6 flex items-center justify-center">
-          <div className="story-frame rounded-full px-4 py-2.5">
-            <div className="flex items-center gap-3 text-xs uppercase tracking-[0.28em] text-muted">
-              <span className="signal-dot h-2 w-2 rounded-full bg-accent" />
-              <span>Visible Projects</span>
-              <span className="text-foreground">
-                {String(filteredProjects.length).padStart(2, '0')}
-              </span>
-            </div>
-          </div>
-        </Reveal>
-
-        <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-24 grid gap-x-10 gap-y-20 md:grid-cols-2">
           {filteredProjects.map((project, index) => (
             <Reveal
               key={project.id}
-              delay={index * 0.06}
-              interactive
-              variant="flip"
-              className="group surface-card-strong glass-highlight overflow-hidden transition-transform duration-500 hover:-translate-y-1.5"
+              delay={index * 0.05}
+              className="group p-0"
             >
-              <div className="relative aspect-[1.1] overflow-hidden">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-[24px] border border-white/5">
                 <Image
                   src={project.image}
                   alt={project.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                  priority={index < 3}
+                  className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority={index < 2}
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,11,17,0.04),rgba(5,11,17,0.78))]" />
-                <div className="absolute left-5 right-5 top-5 flex items-start justify-between gap-4">
-                  <span className="eyebrow !px-3 !py-1.5 !text-[0.64rem]">{project.category}</span>
-                  <span className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-xs font-semibold text-white/80">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
+                <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <div className="glass-effect-dark rounded-[24px] p-5">
-                    <div className="mb-3 h-px w-14 bg-gradient-to-r from-accent/90 to-transparent transition-all duration-500 group-hover:w-24" />
-                    <h3 className="text-2xl font-semibold text-white">{project.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-white/68">{project.description}</p>
-                  </div>
+                <div className="absolute bottom-6 right-6 opacity-0 translate-y-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0">
+                  <MagneticButton
+                    strength={0.1}
+                    className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-950"
+                    onClick={() => {
+                      const url = project.liveUrl || project.githubUrl;
+                      if (url) window.open(url, '_blank');
+                    }}
+                  >
+                    <ArrowUpRight size={20} />
+                  </MagneticButton>
                 </div>
               </div>
 
-              <div className="p-5 md:p-6">
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[0.7rem] uppercase tracking-[0.18em] text-foreground/72"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 text-sm text-muted">
-                    {project.liveUrl ? (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 transition-colors hover:text-accent"
+              <div className="mt-8 flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="text-2xl font-medium tracking-tight text-foreground">
+                    {project.title}
+                  </h3>
+                  <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
+                    {project.description}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-4">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[0.6rem] font-bold uppercase tracking-[0.25em] text-muted/50"
                       >
-                        <ExternalLink size={16} />
-                        Live
-                      </a>
-                    ) : null}
-                    {project.githubUrl ? (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 transition-colors hover:text-accent"
-                      >
-                        <BrandGitHub size={16} />
-                        Code
-                      </a>
-                    ) : null}
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-
-                  <MagneticButton
-                    strength={0.14}
-                    className="btn-outline px-4 py-2.5 text-[0.68rem]"
-                    onClick={() => {
-                      const url = project.liveUrl || project.githubUrl;
-                      if (url) {
-                        window.open(url, '_blank', 'noopener,noreferrer');
-                      }
-                    }}
-                  >
-                    Open
-                    <ArrowUpRight size={14} />
-                  </MagneticButton>
                 </div>
+
+                <span className="text-[0.65rem] font-bold uppercase tracking-[0.4em] text-muted/30">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
               </div>
             </Reveal>
           ))}

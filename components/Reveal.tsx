@@ -41,21 +41,17 @@ export default function Reveal({
   const smoothX = useSpring(x, { stiffness: 180, damping: 20, mass: 0.45 });
   const smoothScale = useSpring(scale, { stiffness: 180, damping: 20, mass: 0.45 });
 
-  const initialState = reduceMotion
-    ? { opacity: 0 }
-    : variant === 'flip'
-      ? { opacity: 0, y: distance, rotateX: 12, filter: `blur(${blur}px)` }
-      : variant === 'rotate'
-        ? { opacity: 0, y: distance, rotateZ: -4, filter: `blur(${blur}px)` }
-        : { opacity: 0, y: distance, filter: `blur(${blur}px)` };
+  const initialState = {
+    opacity: 0,
+    y: reduceMotion ? 0 : distance,
+    filter: reduceMotion || !blur ? 'blur(0px)' : `blur(${blur}px)`
+  };
 
-  const visibleState = reduceMotion
-    ? { opacity: 1 }
-    : variant === 'flip'
-      ? { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' }
-      : variant === 'rotate'
-        ? { opacity: 1, y: 0, rotateZ: 0, filter: 'blur(0px)' }
-        : { opacity: 1, y: 0, filter: 'blur(0px)' };
+  const visibleState = {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)'
+  };
 
   const handleMove = (event: React.MouseEvent<HTMLDivElement>) => {
     if (!interactive || reduceMotion) {
