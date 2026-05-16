@@ -1,9 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { ArrowUpRight, Award, Code2, Palette, Sparkles, Video } from 'lucide-react';
+import { ArrowUpRight, Award, Code2, Palette, Video } from 'lucide-react';
 import aboutMeImage from '@/assets/img/aboutme.png';
-import MagneticButton from '@/components/MagneticButton';
 import Reveal from '@/components/Reveal';
 import SectionHeading from '@/components/SectionHeading';
 

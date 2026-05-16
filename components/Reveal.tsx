@@ -24,7 +24,6 @@ export default function Reveal({
   amount = 0.24,
   interactive = false,
   interactiveStrength = 1,
-  variant = 'up',
   active = false,
   className,
   onMouseMove,

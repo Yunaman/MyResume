@@ -2,9 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
-import { Menu, MoveUpRight, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import AnimatedCursor from '@/components/AnimatedCursor';
-import MagneticButton from '@/components/MagneticButton';
 import ThemeToggle from '@/components/ThemeToggle';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 

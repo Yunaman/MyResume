@@ -16,8 +16,6 @@ export default function SectionHeading({
   align = 'center',
 }: SectionHeadingProps) {
   const alignmentClass = align === 'left' ? 'text-left' : 'text-center';
-  const lineClass = align === 'left' ? 'mr-auto' : 'mx-auto';
-
   return (
     <Reveal
       className={`max-w-3xl ${alignmentClass}`}

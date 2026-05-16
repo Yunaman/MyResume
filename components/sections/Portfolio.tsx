@@ -2,10 +2,9 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { ArrowUpRight, ExternalLink } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { useState } from 'react';
 import MagneticButton from '@/components/MagneticButton';
-import { BrandGitHub } from '@/components/BrandIcons';
 import Reveal from '@/components/Reveal';
 import SectionHeading from '@/components/SectionHeading';
 

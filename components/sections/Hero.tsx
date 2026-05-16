@@ -1,32 +1,12 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, ChevronDown, Sparkles, Star, Zap } from 'lucide-react';
+import { motion, useScroll } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
 import FloatingSocial from '@/components/FloatingSocial';
-import HeroWordLoop from '@/components/HeroWordLoop';
 import MagneticButton from '@/components/MagneticButton';
 import ParticleSystem from '@/components/ParticleSystem';
-import Reveal from '@/components/Reveal';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-
-const quickStats = [
-  { label: 'Disciplines', value: '04' },
-  { label: 'Focus', value: 'UI + Code' },
-  { label: 'Based In', value: 'Addis' },
-];
-
-const storyPoints = [
-  'Full-stack systems with polished interfaces',
-  'Brand-aware motion and premium interaction design',
-  'Fast, scalable builds prepared for production',
-];
-
-const emotionalSignals = [
-  'Atmosphere first',
-  'Motion with purpose',
-  'Precision in every layer',
-];
 
 function VisualCore({
   x,
@@ -74,14 +54,11 @@ export default function Hero() {
   const containerRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
-  const { scrollYProgress } = useScroll({
+  useScroll({
     target: containerRef,
     offset: ['start start', 'end start'],
   });
 
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? -12 : -92]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? 20 : 180]);
-  const layerY = useTransform(scrollYProgress, [0, 1], [0, reduceMotion ? -8 : -56]);
 
   const pointerValues = useMemo(
     () => ({
