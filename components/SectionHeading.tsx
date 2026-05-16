@@ -16,20 +16,16 @@ export default function SectionHeading({
   align = 'center',
 }: SectionHeadingProps) {
   const alignmentClass = align === 'left' ? 'text-left' : 'text-center';
-  const lineClass = align === 'left' ? 'mr-auto' : 'mx-auto';
-
   return (
     <Reveal
-      variant="rotate"
       className={`max-w-3xl ${alignmentClass}`}
     >
-      <span className="eyebrow">{eyebrow}</span>
-      <h2 className="heading-2 mt-6 text-balance">{title}</h2>
-      <p className="body-large text-muted mt-5 text-balance">{description}</p>
-      <div
-        aria-hidden="true"
-        className={`mt-7 h-px w-40 rounded-full bg-gradient-to-r from-transparent via-accent/70 to-transparent ${lineClass}`}
-      />
+      <div className={`flex items-center gap-3 ${align === 'center' ? 'justify-center' : ''}`}>
+        <span className="h-px w-6 bg-accent/30" />
+        <span className="text-[0.62rem] font-bold uppercase tracking-[0.4em] text-accent/80">{eyebrow}</span>
+      </div>
+      <h2 className="heading-2 mt-8 text-balance">{title}</h2>
+      <p className="body-large mt-6 text-balance">{description}</p>
     </Reveal>
   );
 }
